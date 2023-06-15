@@ -15,6 +15,11 @@ lint:
 test:
 	go test -v
 
+# https://github.com/jstemmer/go-junit-report
+test-report:
+#   go get -u                         github.com/jstemmer/go-junit-report
+	go test -v 2>&1 ./...   |  go run github.com/jstemmer/go-junit-report -set-exit-code | tee go-junit-report.xml
+
 get:
 	go get
 
