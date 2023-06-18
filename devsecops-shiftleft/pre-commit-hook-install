@@ -1,0 +1,5 @@
+#!/bin/sh
+
+GIT_HOOKS_DIR=$(git rev-parse --git-dir)/hooks
+cp $(git rev-parse --show-toplevel)/devsecops-shiftleft/pre-commit-hook "$GIT_HOOKS_DIR/pre-commit"
+chmod +x "$GIT_HOOKS_DIR/pre-commit"
