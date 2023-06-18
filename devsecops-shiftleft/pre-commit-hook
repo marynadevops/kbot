@@ -15,7 +15,7 @@ is_windows() {
 }
 GITLEAKS_VERSION="8.17.0"
 
-if [ "$(git config --get devsecops.gitleaks.protect.enabled)" != "true" ]; then
+if [ "$(git config --get devsecops.gitleaks.protect.enabled)" = "false" ]; then
     echo "Skipping protect by gitleaks..."
     exit 0
 fi
