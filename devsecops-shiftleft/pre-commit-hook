@@ -84,6 +84,11 @@ then
     cd "$CURRENT_DIR"
 fi
 
+if [ "$(git config --get devsecops.gitleaks.protect.enabled)" = "false" ]; then
+    echo "Skipping protect by gitleaks..."
+    exit 0
+fi
+
 echo "Scanning by gitleaks..."
 $(git rev-parse --show-toplevel)/$HOOKS_PATH/gitleaks protect --staged --source $(git rev-parse --show-toplevel) -v
 echo "Successful."
