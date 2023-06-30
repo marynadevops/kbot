@@ -1,26 +1,26 @@
-name: 'KBOT Test Report'
-on:
-  workflow_run:
-    workflows: ['KBOT-CICD']                     # runs after CI workflow
-    types:
-      - completed
-jobs:
-  on-success:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
-    steps:
-    - run: echo 'The triggering workflow passed'
-  on-failure:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
-    steps:
-    - run: echo 'The triggering workflow failed'
-  report:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: dorny/test-reporter@v1
-      with:
-        artifact: test-results            # artifact name
-        name: JEST Tests                  # Name of the check run which will be created
-        path: '*.xml'                     # Path to test results (inside artifact .zip)
-        reporter: jest-junit              # Format of test results
+# name: 'KBOT Test Report'
+# on:
+#   workflow_run:
+#     workflows: ['KBOT-CICD']                     # runs after CI workflow
+#     types:
+#       - completed
+# jobs:
+#   on-success:
+#     runs-on: ubuntu-latest
+#     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+#     steps:
+#     - run: echo 'The triggering workflow passed'
+#   on-failure:
+#     runs-on: ubuntu-latest
+#     if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+#     steps:
+#     - run: echo 'The triggering workflow failed'
+#   report:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: dorny/test-reporter@v1
+#       with:
+#         artifact: test-results            # artifact name
+#         name: JEST Tests                  # Name of the check run which will be created
+#         path: '*.xml'                     # Path to test results (inside artifact .zip)
+#         reporter: jest-junit              # Format of test results

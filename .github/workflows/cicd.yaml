@@ -19,20 +19,21 @@ jobs:
       # https://github.com/jstemmer/go-junit-report
       # https://github.com/marketplace/actions/test-reporter
 
-      - uses: actions/upload-artifact@v2  # upload test results
-        if: success() || failure()        # run this step even if previous step failed
-        with:
-          name: test-results
-          path: go-junit-*.xml
-          # go-unit-report.xml
-
-      # - name: Test Report
-      #   uses: dorny/test-reporter@v1
-      #   if: success() || failure()       # run this step even if previous step failed
+      # - uses: actions/upload-artifact@v2  # upload test results
+      #   if: success() || failure()        # run this step even if previous step failed
       #   with:
-      #     name: go-junit-report          # Name of the check run which will be created
-      #     path: go-junit-*.xml           # Path to test results
-      #     reporter: jest-junit           # Format of test results
+      #     name: test-results
+      #     path: go-junit-*.xml
+      #     # go-unit-report.xml
+
+      - name: Test Report
+        # uses: dorny/test-reporter@v1
+        uses: uebelack/test-reporter@latest
+        if: success() || failure()       # run this step even if previous step failed
+        with:
+          name: go-junit-report          # Name of the check run which will be created
+          path: go-junit-*.xml           # Path to test results
+          reporter: jest-junit           # Format of test results
 
       - name: Docker Hub Login
         uses: docker/login-action@v2
