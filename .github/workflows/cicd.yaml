@@ -19,21 +19,20 @@ jobs:
       # https://github.com/jstemmer/go-junit-report
       # https://github.com/marketplace/actions/test-reporter
 
-      # - name: workaround for report - ensure non-empty stack traces in failures
-      #   if: success() || failure()       # run this step even if previous step failed
-      #   run: |-
-      #       xmlstarlet ed --inplace 
-      #         -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
-      #         -v "  __ no stack trace detected __ "
-      #         go-junit-report.xml
       - name: workaround for report - ensure non-empty stack traces in failures
+        if: success() || failure()       # run this step even if previous step failed
+        # run: |-   ### xmlstarlet: command not found
+        #     xmlstarlet ed --inplace 
+        #       -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
+        #       -v "  __ no stack trace detected __ "
+        #       go-junit-report.xml
         uses: Mudlet/xmlstarlet-action@master
         with:
           args: |-
               ed --inplace 
-                -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
-                -v "  __ no stack trace detected __ "
-                go-junit-report.xml
+              -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
+              -v "  __ no stack trace detected __ "
+              go-junit-report.xml
       - name: Test Report
         uses: dorny/test-reporter@v1 # default
         # uses: uebelack/test-reporter@latest -- fails
