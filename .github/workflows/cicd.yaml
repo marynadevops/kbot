@@ -24,7 +24,7 @@ jobs:
         uses: Mudlet/xmlstarlet-action@master
         with:
           args: >
-              ed -P -L --delete //@hostname
+              ed -P -L --update "//@hostname" --value "  __ no stack trace detected __ "
               go-junit-report.xml
       - run: cat go-junit-report.xml
         if: success() || failure()       # run this step even if previous step failedes
