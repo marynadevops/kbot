@@ -13,7 +13,7 @@ lint:
 	golint
 
 test:
-	go test -v
+	go test -v ./...
 
 # https://github.com/jstemmer/go-junit-report
 test-report:
