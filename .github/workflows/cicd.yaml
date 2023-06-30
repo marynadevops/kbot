@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Chackout
+      - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -19,13 +19,13 @@ jobs:
       # https://github.com/jstemmer/go-junit-report
       # https://github.com/marketplace/actions/test-reporter
 
-      - name: workaround - ensure non-empty stack traces in failures
-        run: |
+      - name: workaround for report - ensure non-empty stack traces in failures
+        if: success() || failure()       # run this step even if previous step failed
+        run: |-
             xmlstarlet ed --inplace 
               -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
               -v "  __ no stack trace detected __ "
               go-junit-report.xml
-
       - name: Test Report
         uses: dorny/test-reporter@v1 # default
         # uses: uebelack/test-reporter@latest -- fails

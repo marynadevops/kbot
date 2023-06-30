@@ -25,6 +25,26 @@ go test -json ./... 2>&1  |  go run github.com/jstemmer/go-junit-report/v2 -pars
 ```
 
 ```
+ ## xmlstarlet ed --inplace -u "//*[local-name()='failure']" -v "  !! no stack trace detected !! " junit-report.xml
+
+
+## xmlstarlet ed --inplace -u "//*[local-name()='failure']" -v "  __ no stack trace detected __ " go-junit-report.xml
+xmlstarlet ed --inplace -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']" -v "  __ no stack trace detected __ " go-junit-report.xml
+
+## xmlstarlet ed --inplace -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']" -v "$(printf "<![CDATA[%s]]>" "  !! no stack trace detected !! ")" go-junit-report.xml
+
+## xmlstarlet ed --inplace -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']" -v "<![CDATA[  !! no stack trace detected !! ]]>" go-junit-report.xml
+```
+
+```
+run: |
+      xmlstarlet ed --inplace 
+        -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
+        -v "  __ no stack trace detected __ "
+        go-junit-report.xml
+```
+
+```
 go install                        github.com/jstemmer/go-junit-report/v2@latest
 
 go get -u                         github.com/jstemmer/go-junit-report
