@@ -19,13 +19,6 @@ jobs:
       # https://github.com/jstemmer/go-junit-report
       # https://github.com/marketplace/actions/test-reporter
 
-      # - uses: actions/upload-artifact@v2  # upload test results
-      #   if: success() || failure()        # run this step even if previous step failed
-      #   with:
-      #     name: test-results
-      #     path: go-junit-*.xml
-      #     # go-unit-report.xml
-
       - name: Test Report
         # uses: dorny/test-reporter@v1
         # uses: uebelack/test-reporter@latest
