@@ -19,11 +19,18 @@ jobs:
       # https://github.com/jstemmer/go-junit-report
       # https://github.com/marketplace/actions/test-reporter
 
+      - name: workaround - ensure non-empty stack traces in failures
+        run: |
+            xmlstarlet ed --inplace 
+              -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
+              -v "  __ no stack trace detected __ "
+              go-junit-report.xml
+
       - name: Test Report
-        # uses: dorny/test-reporter@v1
-        # uses: uebelack/test-reporter@latest
-        # uses: moudrick/test-reporter@stacktrace-split-safe
-        uses: dorny/test-reporter@v1.6.0
+        uses: dorny/test-reporter@v1 # default
+        # uses: uebelack/test-reporter@latest -- fails
+        # uses: moudrick/test-reporter@stacktrace-split-safe ## works, some blind fixes there
+        # uses: dorny/test-reporter@v1.6.0 -- fails
         if: success() || failure()       # run this step even if previous step failed
         with:
           name: go-junit-report          # Name of the check run which will be created
