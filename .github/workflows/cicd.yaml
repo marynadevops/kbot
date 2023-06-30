@@ -25,6 +25,7 @@ jobs:
         with:
           args: ed -P -L --delete //@line go-junit-report.xml
       - run: cat go-junit-report.xml
+        if: success() || failure()       # run this step even if previous step failedes
       - name: workaround for report - ensure non-empty stack traces in failures
         if: success() || failure()       # run this step even if previous step failed
         # run: |-   ### xmlstarlet: command not found
