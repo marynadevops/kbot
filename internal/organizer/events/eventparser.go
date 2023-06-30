@@ -30,6 +30,7 @@ func (parser *EventParser) ParseFirstDate(input string) (time.Time, error) {
 
 	return parsedDate, nil
 }
+
 /*
 func main() {
 	parser := EventParser{}
