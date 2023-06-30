@@ -19,6 +19,11 @@ jobs:
       # https://github.com/jstemmer/go-junit-report
       # https://github.com/marketplace/actions/test-reporter
 
+      - name: delete all @hostname attribut
+        if: success() || failure()       # run this step even if previous step failedes
+        uses: Mudlet/xmlstarlet-action@master
+        with:
+          args: ed -P -L --delete //@line go-junit-report.xml
       - name: workaround for report - ensure non-empty stack traces in failures
         if: success() || failure()       # run this step even if previous step failed
         # run: |-   ### xmlstarlet: command not found
