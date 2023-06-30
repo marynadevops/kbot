@@ -28,7 +28,7 @@ jobs:
         #       go-junit-report.xml
         uses: Mudlet/xmlstarlet-action@master
         with:
-          args: >-
+          args: >
               ed --inplace
               --update "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
               --value "  __ no stack trace detected __ "
