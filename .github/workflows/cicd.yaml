@@ -24,7 +24,7 @@ jobs:
         with:
           name: go-junit-report          # Name of the check run which will be created
           path: go-junit-*.xml           # Path to test results
-          reporter: java-junit           # Format of test results
+          reporter: jest-junit           # Format of test results
 
       - name: Docker Hub Login
         uses: docker/login-action@v2
