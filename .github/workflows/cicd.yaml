@@ -28,7 +28,8 @@ jobs:
 
       - name: Test Report
         # uses: dorny/test-reporter@v1
-        uses: uebelack/test-reporter@latest
+        # uses: uebelack/test-reporter@latest
+        uses: moudrick/test-reporter@stacktrace-split-safe
         if: success() || failure()       # run this step even if previous step failed
         with:
           name: go-junit-report          # Name of the check run which will be created
