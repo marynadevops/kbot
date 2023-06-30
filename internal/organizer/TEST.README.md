@@ -37,11 +37,20 @@ xmlstarlet ed --inplace -u "//*[local-name()='failure'][not(text()) or normalize
 ```
 
 ```
-run: |
+run: >-
       xmlstarlet ed --inplace 
         -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
         -v "  __ no stack trace detected __ "
         go-junit-report.xml
+
+
+xmlstarlet ed --inplace --update "//*[local-name()='failure'][not(text()) or normalize-space(text())='']" --value "  __ no stack trace detected __ " go-junit-report.xml
+
+          args: >-
+              ed --inplace
+              --update "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
+              --value "  __ no stack trace detected __ "
+              go-junit-report.xml
 ```
 
 ```

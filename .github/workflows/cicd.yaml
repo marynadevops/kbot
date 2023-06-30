@@ -28,10 +28,10 @@ jobs:
         #       go-junit-report.xml
         uses: Mudlet/xmlstarlet-action@master
         with:
-          args: |-
-              ed --inplace 
-              -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
-              -v "  __ no stack trace detected __ "
+          args: >-
+              ed --inplace
+              --update "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
+              --value "  __ no stack trace detected __ "
               go-junit-report.xml
       - name: Test Report
         uses: dorny/test-reporter@v1 # default
