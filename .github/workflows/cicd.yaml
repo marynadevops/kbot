@@ -23,7 +23,7 @@ jobs:
         if: success() || failure()       # run this step even if previous step failedes
         uses: Mudlet/xmlstarlet-action@master
         with:
-          args: ed --inplace-P -L --delete //@hostname go-junit-report.xml
+          args: ed -P -L --delete //@hostname go-junit-report.xml
       - run: cat go-junit-report.xml
         if: success() || failure()       # run this step even if previous step failedes
       - name: workaround for report - ensure non-empty stack traces in failures
