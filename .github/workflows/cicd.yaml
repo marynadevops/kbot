@@ -20,19 +20,19 @@ jobs:
       # https://github.com/marketplace/actions/test-reporter
       - name: workaround for report - ensure non-empty stack traces in failures
         if: success() || failure()       # run this step even if previous step failed
-        run: >
-            sudo apt-get -qq  -o=Dpkg::Use-Pty=0 install -y xmlstarlet ;
-            xmlstarlet ed --inplace 
-              -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
-              -v "__no_stack_trace_detected__"
-              go-junit-report.xml
-        # uses: Mudlet/xmlstarlet-action@master
-        # with:
-        #   args: >
-        #       ed --inplace
-        #       --update "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
-        #       --value "__no_stack_trace_detected__"
+        # run: >
+        #     sudo apt-get -qq  -o=Dpkg::Use-Pty=0 install -y xmlstarlet ;
+        #     xmlstarlet ed --inplace 
+        #       -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
+        #       -v "__no_stack_trace_detected__"
         #       go-junit-report.xml
+        uses: Mudlet/xmlstarlet-action@master
+        with:
+          args: >
+              ed --inplace
+              --update "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
+              --value "__no_stack_trace_detected__"
+              go-junit-report.xml
       - name: Test Report
         uses: dorny/test-reporter@v1 # default
         # uses: uebelack/test-reporter@latest -- fails
