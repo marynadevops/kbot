@@ -21,7 +21,7 @@ jobs:
       - name: workaround for report - ensure non-empty stack traces in failures
         if: success() || failure()       # run this step even if previous step failed
         run: >-
-            sudo apt-get -qq install -y xmlstarlet ;
+            sudo apt-get -qq  -o=Dpkg::Use-Pty=0 install -y xmlstarlet ;
             xmlstarlet ed --inplace 
               -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
               -v "  __ no stack trace detected __ "
