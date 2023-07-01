@@ -27,6 +27,21 @@ go test -v    ./... 2>&1  |  go run github.com/jstemmer/go-junit-report/v2      
 go test -json ./... 2>&1  |  go run github.com/jstemmer/go-junit-report/v2 -parser gojson -set-exit-code  -out go-junit-report-json.xml
 ```
 
+
+```
+        run: sed -i 's#"></failure>#"><![CDATA[\&lt\;\&\#91\;\&\#93\;\&gt\;]]></failure>#g' go-junit-report.xml ; cat go-junit-report.xml
+        ## run: sed -i 's#"></failure>#"><![CDATA[__no_stack_trace_detected__]]></failure>#g' go-junit-report.xml
+        # run: sed -i 's#"></failure>#">__no_stack_trace_detected__</failure>#g' go-junit-report.xml
+        # run: sed -i 's#<failure message="Failed"></failure>#<failure message="Failed">__no_stack_trace_detected__</failure>#g' go-junit-report.xml
+```
+
+```
+        uses: dorny/test-reporter@v1 # default
+        # uses: uebelack/test-reporter@latest -- fails
+        # uses: moudrick/test-reporter@stacktrace-split-safe ## works, some blind fixes there
+        # uses: dorny/test-reporter@v1.6.0 -- fails
+```
+
 ```
  ## xmlstarlet ed --inplace -u "//*[local-name()='failure']" -v "  !! no stack trace detected !! " junit-report.xml
 

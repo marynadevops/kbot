@@ -18,28 +18,13 @@ jobs:
 
       - name: workaround for report - ensure non-empty stack traces in failures
         if: success() || failure()       # run this step even if previous step failed
-        run: sed -i 's#"></failure>#"><![CDATA[ ]]></failure>#g' go-junit-report.xml ; cat go-junit-report.xml
-        ## run: sed -i 's#"></failure>#"><![CDATA[__no_stack_trace_detected__]]></failure>#g' go-junit-report.xml
-         # run: sed -i 's#"></failure>#">__no_stack_trace_detected__</failure>#g' go-junit-report.xml
-        # run: sed -i 's#<failure message="Failed"></failure>#<failure message="Failed">__no_stack_trace_detected__</failure>#g' go-junit-report.xml
-        # run: >
-        #     sudo apt-get -qq  -o=Dpkg::Use-Pty=0 install -y xmlstarlet ;
-        #     xmlstarlet ed --inplace 
-        #       -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
-        #       -v "__no_stack_trace_detected__"
-        #       go-junit-report.xml
-        # # # uses: Mudlet/xmlstarlet-action@master
-        # # # with:
-        # # #   args: >
-        # # #       ed --inplace
-        # # #       --update "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
-        # # #       --value "__no_stack_trace_detected__"
-        # # #       go-junit-report.xml
+        run: >
+            sed -i
+            's#"></failure>#"><![CDATA[\&lt\;\&\#91\;\&\#93\;\&gt\;]]></failure>#g'
+                  go-junit-report.xml 
+            ; cat go-junit-report.xml
       - name: Test Report
-        uses: dorny/test-reporter@v1 # default
-        # uses: uebelack/test-reporter@latest -- fails
-        # uses: moudrick/test-reporter@stacktrace-split-safe ## works, some blind fixes there
-        # uses: dorny/test-reporter@v1.6.0 -- fails
+        uses: dorny/test-reporter@v1
         if: success() || failure()       # run this step even if previous step failed
         with:
           name: go-junit-report          # Name of the check run which will be created
