@@ -13,16 +13,18 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: run tests
+        run: go test -json ./... > test.json
+
+      - name: Annotate tests
+        if: success() || failure()
+        uses: guyarb/golang-test-annotations@v0.6.0
+        with:
+          test-results: test.json
+
       - name: Run test
         run: make test-report
 
-      # - name: workaround for report - ensure non-empty stack traces in failures
-      #   if: success() || failure()       # run this step even if previous step failed
-      #   run: >
-      #       sed -i
-      #       's#"></failure>#">No stack trace detected</failure>#g'
-      #       go-junit-report.xml 
-      #       ; cat go-junit-report.xml
       - name: Test Report
         # uses: dorny/test-reporter@v1 # default
         uses: moudrick/test-reporter@stacktrace-split-safe ## works, some blind fixes there
@@ -31,6 +33,8 @@ jobs:
           name: go-junit-report          # Name of the check run which will be created
           path: go-junit-*.xml           # Path to test results
           reporter: jest-junit           # Format of test results
+
+
 
       - name: Docker Hub Login
         uses: docker/login-action@v2
