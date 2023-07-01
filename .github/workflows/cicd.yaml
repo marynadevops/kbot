@@ -21,7 +21,7 @@ jobs:
         run: >
             sed -i
             's#"></failure>#"><![CDATA[\&lt\;\&\#91\;\&\#93\;\&gt\;]]></failure>#g'
-                  go-junit-report.xml 
+            go-junit-report.xml 
             ; cat go-junit-report.xml
       - name: Test Report
         uses: dorny/test-reporter@v1
