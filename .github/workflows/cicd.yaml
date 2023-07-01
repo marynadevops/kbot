@@ -18,7 +18,7 @@ jobs:
 
       - name: workaround for report - ensure non-empty stack traces in failures
         if: success() || failure()       # run this step even if previous step failed
-        run: sed -i 's#"></failure>#"><![CDATA[__no_stack_trace_detected__]]></failure>#g' go-junit-report.xml || cat go-junit-report.xml
+        run: sed -i 's#"></failure>#"><![CDATA[]]></failure>#g' go-junit-report.xml ; cat go-junit-report.xml
         ## run: sed -i 's#"></failure>#"><![CDATA[__no_stack_trace_detected__]]></failure>#g' go-junit-report.xml
          # run: sed -i 's#"></failure>#">__no_stack_trace_detected__</failure>#g' go-junit-report.xml
         # run: sed -i 's#<failure message="Failed"></failure>#<failure message="Failed">__no_stack_trace_detected__</failure>#g' go-junit-report.xml
