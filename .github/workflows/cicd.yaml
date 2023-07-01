@@ -19,28 +19,17 @@ jobs:
       # https://github.com/jstemmer/go-junit-report
       # https://github.com/marketplace/actions/test-reporter
 
-      - name: delete all @hostname attribut
-        if: success() || failure()       # run this step even if previous step failedes
-        uses: Mudlet/xmlstarlet-action@master
-        with:
-          args: >
-              ed -P -L --update "//@hostname" --value "__no_stack_trace_detected__"
-              go-junit-report.xml
+
       - run: cat go-junit-report.xml
         if: success() || failure()       # run this step even if previous step failedes
       - name: workaround for report - ensure non-empty stack traces in failures
         if: success() || failure()       # run this step even if previous step failed
-        # run: |-   ### xmlstarlet: command not found
-        #     xmlstarlet ed --inplace 
-        #       -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
-        #       -v "  __ no stack trace detected __ "
-        #       go-junit-report.xml
         uses: Mudlet/xmlstarlet-action@master
         with:
           args: >
               ed --inplace
               --update "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
-              --value "  __ no stack trace detected __ "
+              --value "__no_stack_trace_detected__"
               go-junit-report.xml
       - name: Test Report
         uses: dorny/test-reporter@v1 # default
@@ -52,12 +41,6 @@ jobs:
           name: go-junit-report          # Name of the check run which will be created
           path: go-junit-*.xml           # Path to test results
           reporter: jest-junit           # Format of test results
-      - name: --version
-        if: success() || failure()       # run this step even if previous step failedes
-        uses: Mudlet/xmlstarlet-action@master
-        with:
-          entrypoint: sh
-          args: -c xmlstarlet --version
 
       - name: Docker Hub Login
         uses: docker/login-action@v2
