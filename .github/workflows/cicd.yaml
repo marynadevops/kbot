@@ -20,7 +20,7 @@ jobs:
         if: success() || failure()       # run this step even if previous step failed
         run: >
             sed -i
-            's#"></failure>#"><![CDATA[No stack trace detected]]></failure>#g'
+            's#"></failure>#">No stack trace detected</failure>#g'
             go-junit-report.xml 
             ; cat go-junit-report.xml
       - name: Test Report
