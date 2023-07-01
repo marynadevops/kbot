@@ -24,7 +24,7 @@ jobs:
             sudo apt-get -qq  -o=Dpkg::Use-Pty=0 install -y xmlstarlet ;
             xmlstarlet ed --inplace 
               -u "//*[local-name()='failure'][not(text()) or normalize-space(text())='']"
-              -v "  __ no stack trace detected __ "
+              -v "__no_stack_trace_detected__"
               go-junit-report.xml
         # uses: Mudlet/xmlstarlet-action@master
         # with:
